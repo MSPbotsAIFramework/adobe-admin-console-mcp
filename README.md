@@ -1,0 +1,1 @@
+# adobe-admin-console-mcp
