@@ -1,13 +1,13 @@
 # adobe-admin-console-mcp
 
-English | [中文](./README.zh-CN.md)
+English | [Chinese](./README.zh-CN.md)
 
 Adobe Admin Console MCP server for Claude — exposes Adobe's **User Management API (UMAPI)** as MCP
 tools, focused on **Acrobat / PDF license (product profile) assignment** for Enterprise organizations.
 
 **Tech stack:** Python 3.12 + uv + FastMCP (Starlette/uvicorn)
 
-关联需求：[PRD-15546](https://app.clickup.com/t/86e2jyjc9)（Onboarding step 16，Acrobat / PDF license assignment）。完整调研见 `vendor-mcp-template/prd/AdobeAdminConsole.md`。
+Related requirement: [PRD-15546](https://app.clickup.com/t/86e2jyjc9) (Onboarding step 16, Acrobat / PDF license assignment). See the full research in `vendor-mcp-template/prd/AdobeAdminConsole.md`.
 
 <div align="center">
 
@@ -105,11 +105,11 @@ requests, even though Adobe's own docs suggest doing so, in order to fully compl
 
 ### Gateway mode HTTP headers (`AUTH_MODE=gateway`)
 
-| Header | 类型 | 是否必填 | 默认值 | 枚举值 | 字段描述 | Example |
+| Header | Type | Required | Default | Allowed values | Description | Example |
 |---|---|---|---|---|---|---|
-| `x-adobe-client-id` | string | 必填 | 无 | 无 | Adobe Developer Console Project 的 Client ID，用于换取 access_token 及作为 `x-api-key` | `1234abcd5678efgh` |
-| `x-adobe-client-secret` | string | 必填 | 无 | 无 | 对应的 Client Secret，仅用于本次请求内换取 access_token，不持久化、不写日志 | `p8e-xxxxxxxxxxxx` |
-| `x-adobe-org-id` | string | 必填 | 无 | 无 | Adobe 组织 ID（Enterprise 租户标识） | `1234567890ABCDEF@AdobeOrg` |
+| `x-adobe-client-id` | string | Yes | None | None | Client ID of the Adobe Developer Console Project, used to exchange for an access_token and as `x-api-key` | `1234abcd5678efgh` |
+| `x-adobe-client-secret` | string | Yes | None | None | The corresponding Client Secret, used only within this request to exchange for an access_token; not persisted and not logged | `p8e-xxxxxxxxxxxx` |
+| `x-adobe-org-id` | string | Yes | None | None | Adobe organization ID (Enterprise tenant identifier) | `1234567890ABCDEF@AdobeOrg` |
 
 Missing any of the three headers on a `/mcp` request returns `401` with a `required_headers` list.
 
@@ -173,11 +173,11 @@ Base URL: `https://usermanagement.adobe.io/v2/usermanagement`
 
 | Tool | Description | Parameters |
 |---|---|---|
-| `adobe_list_users` | 列出组织下的用户（分页） | `page` (int, 可选，默认 0，从 0 开始) |
-| `adobe_get_user` | 获取指定用户详情（含当前产品/群组归属） | `email` (string, 必填) |
-| `adobe_list_product_profiles` | 列出可分配的产品档案（如 Acrobat Pro / Standard），客户端按 `type == "PRODUCT_PROFILE"` 过滤 | `page` (int, 可选，默认 0) |
-| `adobe_assign_license` | 将用户加入指定 Product Profile，完成许可证分配 | `email` (string, 必填), `product_profile` (string, 必填，产品档案名称) |
-| `adobe_remove_license` | 将用户从指定 Product Profile 移除，回收许可证 | `email` (string, 必填), `product_profile` (string, 必填) |
+| `adobe_list_users` | List the users of the organization (paginated) | `page` (int, optional, default 0, starting from 0) |
+| `adobe_get_user` | Get details of the specified user (including current product/group membership) | `email` (string, required) |
+| `adobe_list_product_profiles` | List assignable product profiles (e.g. Acrobat Pro / Standard); the client filters by `type == "PRODUCT_PROFILE"` | `page` (int, optional, default 0) |
+| `adobe_assign_license` | Add the user to the specified Product Profile, completing the license assignment | `email` (string, required), `product_profile` (string, required, product profile name) |
+| `adobe_remove_license` | Remove the user from the specified Product Profile, reclaiming the license | `email` (string, required), `product_profile` (string, required) |
 
 **Rate limits** (enforced by Adobe, not this service — expect `429` + `Retry-After` if exceeded):
 
