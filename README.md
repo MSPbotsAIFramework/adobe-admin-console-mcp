@@ -1,7 +1,5 @@
 # adobe-admin-console-mcp
 
-English | [Chinese](./README.zh-CN.md)
-
 Adobe Admin Console MCP server for Claude — exposes Adobe's **User Management API (UMAPI)** as MCP
 tools, focused on **Acrobat / PDF license (product profile) assignment** for Enterprise organizations.
 
